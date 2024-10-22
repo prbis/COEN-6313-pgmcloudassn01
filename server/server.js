@@ -291,11 +291,22 @@ function main() {
     GetLaureateDetailsByName
   });
   //const bindAddress = '0.0.0.0:50051';
-  const bindAddress = `0.0.0.0:${process.env.PORT || 50051}`;
-  server.bindAsync(bindAddress, grpc.ServerCredentials.createInsecure(), () => {
+ // const bindAddress = `0.0.0.0:${process.env.PORT || 50051}`;
+ // server.bindAsync(bindAddress, grpc.ServerCredentials.createInsecure(), () => {
+ //   server.start();
+ //   console.log(`gRPC server running at ${bindAddress}`);
+ // });
+
+  const PORT = process.env.PORT || 8080; // Default to 8080 if PORT is not set
+server.bindAsync(`0.0.0.0:${PORT}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    console.log(`Server running at http://0.0.0.0:${port}`);
     server.start();
-    console.log(`gRPC server running at ${bindAddress}`);
-  });
+});
+
 }
 
 main();
